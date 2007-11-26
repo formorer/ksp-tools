@@ -1,0 +1,16 @@
+WARNING: the tools use relative path names. So go into your directory an call them like: bin/generate-list 
+
+- Copy example/ to a usefull directory name - eg. ksp-froscon07/
+- Edit conf/vars 
+- Adjust the text in bin/generate-list and conf/mail-header 
+  (WARNING: don't forget to add $KSPFILE as in conf/vars to the mail-header, otherwise people can be irritated :)) 
+  TODO: use some kind of template language....
+- If you don't run the kspkeyserver just drop the keys into a directory named keys/
+
+If you have keys you can run the following tools: 
+
+bin/generate-list - generates the classic KSP sheets and keyrings
+bin/generate-mailadds - reads the KSPFILE and extracts all mailaddresses
+bin/mail-send - uses nail to send a mail to all participants. $KSPFILE gets attached. The text for the mail is in conf/mail-header.
+
+

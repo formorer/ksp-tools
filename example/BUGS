@@ -1,0 +1,5 @@
+- Its not possible to detect if one person has more than one key. 
+  So its possible that somebody has a key on the different positions 
+  on the sheet. I try to avoid this by sorting them the date of their 
+  submission. But if somebody later reupload only one key this is lost. 
+  I don't know a solution for this problem... If you know one - Tell me. 

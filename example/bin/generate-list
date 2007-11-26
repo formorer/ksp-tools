@@ -1,0 +1,53 @@
+#!/bin/sh
+
+set -e 
+LANG=C 
+LC_ALL=C
+
+. ./conf/vars
+[ -d $GNUPGHOME ] && rm -r $GNUPGHOME
+mkdir $GNUPGHOME
+chmod go-rwx $GNUPGHOME
+ls -1t keys/* | xargs gpg -q --import 
+
+(
+cat << EOF
+Saturday, May 32th, 1899;  18:00			 	       
+                                          Alexander Wirt <formorer@formorer.de>
+
+
+                E X A M P L E   K E Y S I G N I N G P A R T Y
+
+                     List of Participants  (v 1.0)
+
+
+Here's what you have to do with this file:
+(1) Print this file to paper.
+(2) Compute this file's MD5 checksum and optionally also its SHA1 checksum.
+   gpg --print-md md5 ksp-glt07.txt   (or use md5sum)
+   gpg --print-md sha1 ksp-glt07.txt  (or use sha1sum)
+(3) fill in the hash values on the printout.
+(4) Bring the printout, a pen, and proof of identity to the keysigningparty (and be on time!).
+
+MD5 Checksum:  __ __ __ __ __ __ __ __    __ __ __ __ __ __ __ __           [ ]
+
+
+
+SHA1 Checksum: ____ ____ ____ ____ ____    ____ ____ ____ ____ ____         [ ]
+
+
+
+
+EOF
+
+
+gpg -q --no-options --fingerprint --list-key |
+	grep -v '^sub ' |
+	perl -npe '$c = sprintf("%03d", ++$C); s/^pub/$c  [ ] Fingerprint OK        [ ] ID OK\npub/m or $C--' |
+	grep -v '^uid.*jpeg image of size' |
+	sed -e 's/^uid                        /uid /' |
+	tail -n +3 
+) > $KSPFILE
+
+gpg -q --no-options --armor --export > $(basename $KSPFILE .txt).asc
+bzip2 -c $(basename $KSPFILE .txt).asc > $(basename $KSPFILE .txt).asc.bz2

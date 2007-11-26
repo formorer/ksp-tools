@@ -1,0 +1,7 @@
+#!/bin/sh
+
+. conf/vars
+
+test -r "$KSPFILE" ||( echo "ksp file $KSPFILE not found" && exit)
+
+grep uid $KSPFILE | grep @ | uniq -f 2 | sed -e 's/\(.*\)<\([^>]\+\)\(.*\)/\2/' > conf/mail-addresses 

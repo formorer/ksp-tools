@@ -1,0 +1,40 @@
+Hi,                       [german version below]
+
+this is the final list of participants for the XXXXX Keysigning
+Party.  Please print this file, compute its md5 and its sha1 checksum and write
+them down on the printout.  Make sure to compute the hash of the _unmodified_
+ksp-glt07.txt file.  Verify that your fingerprint(s) in the file are correct.
+Bring the hardcopy, a pen, and proof of identity to the keysigning party.  A
+file with all the keys can be found on the keysigning coordination page at [1].
+
+If you have any questions please read [1] or send me mail.
+
+Attached you will find ksp-glt07.txt.  Its md5sum should start with
+2A E5 F2 C1 A8 F4 ...  
+
+If that does not match with your copy please fetch the file from my
+page again.  Chances are your mail setup mangled some whitespace.
+
+
+Hallo,
+
+das ist die fertige Liste der Teilnehmer fuer die Keysigningparty auf den
+XXXXXXXX.  Bitte drucke die Datei aus und berechne die MD5 und auch
+die SHA1 Pruefsumme der (unmodifizierten!) Datei.  Ueberpruefe weiters, dass
+Dein Fingerprint in der Datei richtig ist.  Zur Party bringst Du bitte den
+Ausdruck, einen Kugelschreiber, und Deinen Ausweis.  Eine Datei mit allen
+Schluesseln findest du auf der Koordinationsseite fuer die Party [1].
+
+Bei Fragen lies Dir bitte [1] durch oder schick mir eine kurze Mail.
+
+Angehaengt ist die Datei ksp-glt07.txt. Die md5summe beginnt mit 
+2A E5 F2 C1 A8 F4 ...  
+
+Wenn das bei Dir nicht stimmt, dann lade Dir bitte die Datei nochmal von meiner
+Seiter herunter.  Dein Mail-System hat vermutlich ein bischen Whitespace kaputt
+gemacht.
+
+[1] http://ksp-glt07.snow-crash.org/
+
+-- 
+Alexander

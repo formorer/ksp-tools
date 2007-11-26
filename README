@@ -1,0 +1,32 @@
+KSP Keyserver v0.1
+------------------
+
+As a first warning: this tools were never thought to be published...
+I used them to organize a few KSP with participants from 20 to 150. So
+basically they seem to work....
+
+The Keyserver: 
+
+the keyserver is implemented in perl and only support the "add" method. So users
+can send their key via gpg --send-key .... This is much better than hoping to get 
+all keys correctly via mail.
+
+The keyserver supports vhosts (if $vhostmode is enabled). That means that it uses
+HTTP 1.1 to detect the targethostname and then drops the key to: $basedir/$targethost/keys/$keyid. 
+Otherwise the key gets dropped to $basedir. 
+
+There are a few variables that can be adjusted in the top of the binary (TODO: support configfiles). 
+
+my $basedir = '/home/ksp/ksps'; <- Where to work and store the keys
+my $gpg = '/usr/bin/gpg'; <- where is the gpg binary located
+my $vhostmode = 1; <- enable vhostmode (see above) 
+my $bind = '0.0.0.0'; <- bind to a specific ip
+my $daemonize = 0; <- go into background? 
+my $LOG_FILE = "/home/ksp/kspkeyserver.log"; <- logfile
+my $LOG_LEVEL = 7; <- loglevel: 1 means virtually nothing - 7 all 
+
+If you want to run multiple ksps in vhost mode simultaneous you may need to look some of them because you
+want to prevent the submission of new keys after the deadline. Just touch $basedir/$targethost/locked and the 
+keysigning server will send the submitter an error. (Unfortunatly gpg don't understands the enhanced error messages)
+
+

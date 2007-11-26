@@ -1,0 +1,3 @@
+KS=keyserver.noreply.org
+export GNUPGHOME=$(pwd)/gpg
+KSPFILE="ksp-froscon07.txt"
