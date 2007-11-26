@@ -1,6 +1,7 @@
 WARNING: the tools use relative path names. So go into your directory an call them like: bin/generate-list 
 
 - Copy example/ to a usefull directory name - eg. ksp-froscon07/
+- create an empty keys/ dir 
 - Edit conf/vars 
 - Adjust the text in bin/generate-list and conf/mail-header 
   (WARNING: don't forget to add $KSPFILE as in conf/vars to the mail-header, otherwise people can be irritated :)) 
