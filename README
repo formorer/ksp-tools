@@ -29,4 +29,9 @@ If you want to run multiple ksps in vhost mode simultaneous you may need to look
 want to prevent the submission of new keys after the deadline. Just touch $basedir/$targethost/locked and the 
 keysigning server will send the submitter an error. (Unfortunatly gpg don't understands the enhanced error messages)
 
+For security reasons you have to create $basedir/$targethost manually, otherwise anybody can create directorys on your 
+system with a faked HTTP/1.1 header. This will change to a config option in the future. 
+
+After configuring you can send a key via gpg and the hkp protocol to your server: 
+gpg --keyserver hkp://your.host.bar --send YOURKEYID
 
