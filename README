@@ -15,6 +15,9 @@ The keyserver supports vhosts (if $vhostmode is enabled). That means that it use
 HTTP 1.1 to detect the targethostname and then drops the key to: $basedir/$targethost/keys/$keyid. 
 Otherwise the key gets dropped to $basedir. 
 
+Requirements: Proc::Daemon (Debian package libproc-daemon-perl),
+Log::LogLite (Debian package liblog-loglite-perl) e.a.
+
 There are a few variables that can be adjusted in the top of the binary (TODO: support configfiles). 
 
 my $basedir = '/home/ksp/ksps'; <- Where to work and store the keys
@@ -24,6 +27,13 @@ my $bind = '0.0.0.0'; <- bind to a specific ip
 my $daemonize = 0; <- go into background? 
 my $LOG_FILE = "/home/ksp/kspkeyserver.log"; <- logfile
 my $LOG_LEVEL = 7; <- loglevel: 1 means virtually nothing - 7 all 
+
+The environment variable KSP_HOMEDIR is honored to overrule /home/ksp.  So,
+starting the server as
+
+ $ KSP_HOMEDIR=/tmp/ksp ./bin/kspkeyserver.pl
+
+could be usefull for test purposes.
 
 If you want to run multiple ksps in vhost mode simultaneous you may need to look some of them because you
 want to prevent the submission of new keys after the deadline. Just touch $basedir/$targethost/locked and the 

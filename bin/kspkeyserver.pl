@@ -25,13 +25,15 @@ use Proc::Daemon;
 use Log::LogLite;
 use Net::hostent;
 
+my $homedir = defined $ENV{'KSP_HOMEDIR'} ? $ENV{'KSP_HOMEDIR'} : '/home/ksp';
+
 my $port = 11371;                  # this is used by the hkp protocol, for some weird reason its listed with tcp/udp but thats stupid
-my $basedir = '/home/ksp/keys'; 
+my $basedir = $homedir . "/keys"; 
 my $gpg = '/usr/bin/gpg';
 my $vhostmode = 1;
 my $bind = '0.0.0.0';
 my $daemonize = 1; 
-my $LOG_FILE = "/home/ksp/kspkeyserver.log";
+my $LOG_FILE = $homedir . "/kspkeyserver.log";
 my $LOG_LEVEL = 7;
 
 die "Basedir $basedir does not exist" unless -d "$basedir";
