@@ -118,6 +118,7 @@ while (my $c = $d->accept) {
 						}
 					}	
 				}
+				close(GPG); 
 			}
 		} else {
 			$log->write("Illegal request by " . $c->peerhost(), 4);
