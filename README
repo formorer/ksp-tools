@@ -33,7 +33,7 @@ starting the server as
 
  $ KSP_HOMEDIR=/tmp/ksp ./bin/kspkeyserver.pl
 
-could be usefull for test purposes.
+could be useful for testing purposes.
 
 If you want to run multiple ksps in vhost mode simultaneous you may need to look some of them because you
 want to prevent the submission of new keys after the deadline. Just touch $basedir/$targethost/locked and the 
