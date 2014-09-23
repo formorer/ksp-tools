@@ -10,8 +10,11 @@ WARNING: the tools use relative path names. So go into your directory an call th
 
 If you have keys you can run the following tools: 
 
-bin/generate-list - generates the classic KSP sheets and keyrings
+bin/generate-list - generates the classic KSP sheets and keyrings, the header
+for the file is in conf/list-header
 bin/generate-mailadds - reads the KSPFILE and extracts all mailaddresses
-bin/mail-send - uses nail to send a mail to all participants. $KSPFILE gets attached. The text for the mail is in conf/mail-header.
+bin/mail-send - uses mail to send a mail to all participants. $KSPFILE gets attached. The text for the mail is in conf/mail-header.
 
-
+I use inoticoming to generate the list everytime a key was submitted:
+ inoticoming --logfile inot.log --pid-file inoti.pid keys/ --chdir $(pwd) \
+     --stderr-to-log bin/generate-list \;

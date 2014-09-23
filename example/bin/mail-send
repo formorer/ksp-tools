@@ -26,8 +26,10 @@ set -e
 
 test -r "conf/mail-addresses" ||( echo "conf/mail-addresses not readable" && exit )
 
+gzip -9 -c  $KSPFILE > $KSPFILE.gz
+
 for recipient in ` cat conf/mail-addresses `; do
-#for recipient in formorer@formorer.de; do
+#for recipient in formorer@formorer.de ; do
 	echo $recipient
-	#nail -s 'XYZ 2007 Keysigning Party: List of participants' -a $KSPFILE $recipient < ../conf/mail-header
+	mail -s 'Froscon 2013 Keysigning Party: List of participants' -a $KSPFILE.gz $recipient < conf/mail-header
 done

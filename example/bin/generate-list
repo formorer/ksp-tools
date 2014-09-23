@@ -21,68 +21,29 @@
 #SOFTWARE.
 
 
-set -e 
-LANG=C 
+set -e
+LANG=C
 LC_ALL=C
 
 . ./conf/vars
 [ -d $GNUPGHOME ] && rm -r $GNUPGHOME
 mkdir $GNUPGHOME
 chmod go-rwx $GNUPGHOME
-# ls -1t keys/* | xargs gpg -q --import 
-ls -1tcr keys/* | xargs gpg -q --import 
+# ls -1t keys/* | xargs gpg -q --import
+ls -1tcr keys/* | xargs gpg -q --import
 
 (
-cat << EOF
---------------------------------------------------------------------------------
-Friday, May 30th 2008 at 14:00                 Karlheinz Geyer <streng@ftbfs.de>
-Workshop-Room 1
---------------------------------------------------------------------------------
-
-			    L I N U X T A G  2 0 0 8
-
-			 K E Y S I G N I N G P A R T Y
-
-			  List of Participants  (1.5)
-                          
-			   Draft version, do not use! 
---------------------------------------------------------------------------------
-Here's what you have to do with this file:
-(1) Print this file to paper.
-(2) Compute MD5 and SHA1 checksums of this *unchanged* file.
-     gpg --print-md md5 ksp-lt2k8.txt   (or use md5sum)
-     gpg --print-md sha1 ksp-lt2k8.txt  (or use sha1sum)
-(3) Check that both your Key-ID and your listed FPR are correct.
-(4) Fill in the checksums hash values into the printout.
-(5) Bring the printout, a pen, and proof of identity to the 
-    keysigningparty and be on time!
-(6) Make sure that you can finish your signing-work at home no later than
-
-			   Monday, September 1st 2008
-
-
---------------------------------------------------------------------------------
-
-MD5 Checksum:  __ __ __ __ __ __ __ __    __ __ __ __ __ __ __ __       [ ]
-
-
-
-SHA1 Checksum: ____ ____ ____ ____ ____    ____ ____ ____ ____ ____     [ ]
-
-
---------------------------------------------------------------------------------
-
-EOF
-
+cat conf/list-header
 
 gpg -q --no-options --fingerprint --list-key |
-	grep -v '^sub ' |
-	perl -npe '$c = sprintf("%03d", ++$C); s/^pub/$c   [ ] Fingerprint OK    [ ] ID-Card OK                          [ ] [ ]\npub/m or $C--' |
+        grep -v '^sub ' |
+        perl -npe '$c = sprintf("%03d", ++$C); s/^pub/$c   [ ] Fingerprint OK    [ ] ID-Card OK\npub/m or $C--' |
         grep -v '^uid.*jpeg image of size' |
         sed -e 's/^uid\s*/uid /' |
-        sed -e 's/^$/\n--------------------------------------------------------------------------------/' |
+        sed -e 's/^$/\n--------------------------------------------------------------------------------\n/' |
         tail -n +3
 ) > $KSPFILE
+sed -i '$d' $KSPFILE
 
 gpg -q --no-options --armor --export --export-options export-clean > $(basename $KSPFILE .txt).asc
 bzip2 -c $(basename $KSPFILE .txt).asc > $(basename $KSPFILE .txt).asc.bz2
