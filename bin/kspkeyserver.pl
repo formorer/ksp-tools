@@ -94,7 +94,9 @@ while ( my $c = $d->accept ) {
             my ( $targethost, $port ) = split( /:/, $tmphost );
 
             #sanitize the hostname
-            $targethost =~ s/[^\w-]/_/g;
+            $targethost =~ s/[^a-z0-9-]/_/ig;
+            $targethost = lc($targethost);
+
             $log->write(
                 $c->peerhost() . " wants to submit a key to ksp $targethost",
                 7
