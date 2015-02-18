@@ -58,8 +58,6 @@ if (-e $config->{configfile}) {
     }
 }
 
-use Data::Dumper;
-die Dumper($config);
 die "Basedir " . $config->{basedir} . "does not exist" unless -d $config->{basedir};
 if ( !-d $config->{basedir} . "/gpg" ) {
     mkdir $config->{basedir} . "/gpg", 0700 or die "Could not create gpg home: $!";
