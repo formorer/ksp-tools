@@ -35,6 +35,7 @@ LOG_FILE = /home/ksp/kspkeyserver.log <- logfile
 LOG_LEVEL = 7 <- loglevel: 1 means virtually nothing - 7 all 
 updatehook = updatehook.sh %f <- some script to run after a key got submitted.
                                  %f gets replaced by the filename of the new key
+                                 %v gets replaced with the (sanitized) vhostname
 
 The environment variable KSP_HOMEDIR is honored to overrule /home/ksp.  So,
 starting the server as

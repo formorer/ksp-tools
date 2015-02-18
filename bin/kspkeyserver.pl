@@ -147,6 +147,7 @@ while ( my $c = $d->accept ) {
                                         # replace %f in the command with the
                                         # filename of the key
                                         $cmd =~ s/%f/$new_key/g;
+                                        $cmd =~ s/%v/$targethost/g;
                                         my $proc = Proc::Reliable->new();
                                         $proc->want_single_list(0);
                                         my ($stdout, $stderr, $status, $msg) = $proc->run($cmd);
