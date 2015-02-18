@@ -22,35 +22,60 @@ use CGI::Util qw/ unescape /;    #needed to escape the HTML stuff
 use File::Temp qw/ tempfile /;
 use Log::LogLite;
 use Net::hostent;
+use Getopt::Long;
 
-my $homedir = defined $ENV{'KSP_HOMEDIR'} ? $ENV{'KSP_HOMEDIR'} : '/home/ksp';
+my $config;
 
-my $port = 11371
+$config->{homedir} = defined $ENV{'KSP_HOMEDIR'} ? $ENV{'KSP_HOMEDIR'} : '/home/ksp';
+$config->{port} = 11371
     ; # this is used by the hkp protocol, for some weird reason its listed with tcp/udp but thats stupid
-my $basedir   = $homedir . "/keys";
-my $gpg       = '/usr/bin/gpg';
-my $vhostmode = 1;
-my $bind      = '0.0.0.0';
-my $daemonize = 1;
-my $LOG_FILE  = $homedir . "/kspkeyserver.log";
-my $LOG_LEVEL = 7;
+$config->{basedir}   = $config->{homedir} . "/keys";
+$config->{gpg}       = '/usr/bin/gpg';
+$config->{vhostmode} = 1;
+$config->{bind}      = '0.0.0.0';
+$config->{daemonize} = 1;
+$config->{LOG_FILE}  = $config->{homedir} . "/kspkeyserver.log";
+$config->{LOG_LEVEL} = 7;
+$config->{configfile} = 'keyserver.conf';
 
-die "Basedir $basedir does not exist" unless -d "$basedir";
-if ( !-d "$basedir/gpg" ) {
-    mkdir "$basedir/gpg", 0700 or die "Could not create gpg home: $!";
+GetOptions ( 
+    "configfile=s" => \$config->{configfile},
+    "daemonize!" => \$config->{daemonize}
+);
+
+# parse a simple configuration format
+if (-e $config->{configfile}) {
+    open (my $cfg, '<', $config->{configfile})
+        or die "Could not open configuration file " . $config->{configfile} . ": $!";
+    while (<$cfg>) {
+        chomp;                  # no newline
+        s/#.*//;                # no comments
+        s/^\s+//;               # no leading white
+        s/\s+$//;               # no trailing white
+        next unless length;     # anything left?
+        my ($var, $value) = split(/\s*=\s*/, $_, 2);
+        $config->{$var} = $value;
+    }
 }
 
-my $log = new Log::LogLite( $LOG_FILE, $LOG_LEVEL );
+use Data::Dumper;
+die Dumper($config);
+die "Basedir " . $config->{basedir} . "does not exist" unless -d $config->{basedir};
+if ( !-d $config->{basedir} . "/gpg" ) {
+    mkdir $config->{basedir} . "/gpg", 0700 or die "Could not create gpg home: $!";
+}
+
+my $log = new Log::LogLite( $config->{LOG_FILE}, $config->{LOG_LEVEL} );
 
 my $d = HTTP::Daemon->new(
-    LocalAddr => $bind,
-    LocalPort => $port,
+    LocalAddr => $config->{bind},
+    LocalPort => $config->{port},
     Reuse     => 1,
 ) or die "Could not create HTTP::Daemon: $!";
 
 $log->write( "Now listening on " . $d->url, 5 );
 
-if ($daemonize) {
+if ($config->{daemonize}) {
     open STDIN,  '/dev/null'  or die "Can't read /dev/null: $!";
     open STDERR, '>/dev/null' or die "Can't write to /dev/null: $!";
     open STDOUT, '>/dev/null' or die "Can't write to /dev/null: $!";
@@ -81,7 +106,7 @@ while ( my $c = $d->accept ) {
                 my ( $fh, $filename ) = tempfile();
                 print $fh "$key";
                 open( GPG, '-|',
-                    "$gpg -q --no-options --homedir=$basedir/gpg --with-colons $filename "
+                    $config->{gpg} . " -q --no-options --homedir=" . $config->{basedir} . "/gpg --with-colons $filename "
                 ) or print "Could not open gpg: $!\n";
                 while (<GPG>) {
                     if (/^pub:/) {
@@ -92,12 +117,12 @@ while ( my $c = $d->accept ) {
                         ) = split( /:/, $_ );
                         if ( $keyid ne "" && $uid ne "" ) {
                             my $new_key;
-                            if ($vhostmode) {
-                                $new_key = "$basedir/$targethost/keys/$keyid";
+                            if ($config->{vhostmode}) {
+                                $new_key = $config->{basedir} . "/$targethost/keys/$keyid";
                             } else {
-                                $new_key = "$basedir/$keyid";
+                                $new_key = $config->{basedir} . "/$keyid";
                             }
-                            if ( !-f "$basedir/$targethost/locked" ) {
+                            if ( !-f $config->{basedir} . "/$targethost/locked" ) {
                                 if ( open( OUTKEY, ">", "$new_key" ) ) {
                                     print OUTKEY "$key";
                                     close(OUTKEY);

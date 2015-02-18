@@ -18,15 +18,21 @@ Otherwise the key gets dropped to $basedir.
 Requirements:
 Log::LogLite (Debian package liblog-loglite-perl) e.a.
 
-There are a few variables that can be adjusted in the top of the binary (TODO: support configfiles). 
+There are a few variables that can be adjusted via a configuration file.
+Default location of that file is keyserver.conf in the top level directory of
+the keyserver. This can be overwritten via the --configfile commandline
+option.
 
-my $basedir = '/home/ksp/ksps'; <- Where to work and store the keys
-my $gpg = '/usr/bin/gpg'; <- where is the gpg binary located
-my $vhostmode = 1; <- enable vhostmode (see above) 
-my $bind = '0.0.0.0'; <- bind to a specific ip
-my $daemonize = 0; <- go into background? 
-my $LOG_FILE = "/home/ksp/kspkeyserver.log"; <- logfile
-my $LOG_LEVEL = 7; <- loglevel: 1 means virtually nothing - 7 all 
+The configuration file is a simple key/value.
+The following options are supported:
+
+basedir = /home/ksp/ksps <- Where to work and store the keys
+gpg = /usr/bin/gpg <- where is the gpg binary located
+vhostmode = 1 <- enable vhostmode (see above) 
+bind = 0.0.0.0 <- bind to a specific ip
+daemonize = 1 <- go into background? 
+LOG_FILE = /home/ksp/kspkeyserver.log <- logfile
+LOG_LEVEL = 7 <- loglevel: 1 means virtually nothing - 7 all 
 
 The environment variable KSP_HOMEDIR is honored to overrule /home/ksp.  So,
 starting the server as
