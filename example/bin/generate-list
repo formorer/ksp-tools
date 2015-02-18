@@ -30,7 +30,7 @@ LC_ALL=C
 mkdir $GNUPGHOME
 chmod go-rwx $GNUPGHOME
 # ls -1t keys/* | xargs gpg -q --import
-ls -1tcr keys/* | xargs gpg -q --import
+ls -1tcr keys/* | xargs gpg -q --allow-non-selfsigned-uid --import
 
 (
 cat conf/list-header
