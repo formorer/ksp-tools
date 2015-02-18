@@ -37,7 +37,7 @@ $config->{bind}      = '0.0.0.0';
 $config->{daemonize} = 1;
 $config->{LOG_FILE}  = $config->{homedir} . "/kspkeyserver.log";
 $config->{LOG_LEVEL} = 7;
-$config->{configfile} = 'keyserver.conf';
+$config->{configfile} = defined $ENV{'KSP_HOMEDIR'} ? $ENV{'KSP_HOMEDIR'} . "/keyserver.conf" : 'keyserver.conf';
 
 GetOptions ( 
     "configfile=s" => \$config->{configfile},
