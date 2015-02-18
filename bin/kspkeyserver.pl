@@ -108,10 +108,6 @@ while ( my $c = $d->accept ) {
                                         5
                                     );
 
-                               #$c->send_basic_header( 200, "1 key submitted")
-                                    $c->send_status_line( 200,
-                                        "1 key submitted" );
-
                                     my $response = HTTP::Response->new(200)
                                         ;    # Put together a response
                                     $response->content(
