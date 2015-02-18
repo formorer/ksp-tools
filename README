@@ -15,7 +15,7 @@ The keyserver supports vhosts (if $vhostmode is enabled). That means that it use
 HTTP 1.1 to detect the targethostname and then drops the key to: $basedir/$targethost/keys/$keyid. 
 Otherwise the key gets dropped to $basedir. 
 
-Requirements: Proc::Daemon (Debian package libproc-daemon-perl),
+Requirements:
 Log::LogLite (Debian package liblog-loglite-perl) e.a.
 
 There are a few variables that can be adjusted in the top of the binary (TODO: support configfiles). 

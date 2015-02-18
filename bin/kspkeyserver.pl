@@ -20,7 +20,6 @@ use HTTP::Daemon;
 use strict;
 use CGI::Util qw/ unescape /;    #needed to escape the HTML stuff
 use File::Temp qw/ tempfile /;
-use Proc::Daemon;
 use Log::LogLite;
 use Net::hostent;
 
