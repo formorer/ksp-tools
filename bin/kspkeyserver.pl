@@ -23,6 +23,7 @@ use File::Temp qw/ tempfile /;
 use Log::LogLite;
 use Net::hostent;
 use Getopt::Long;
+use Proc::Reliable;
 
 my $config;
 
@@ -140,7 +141,19 @@ while ( my $c = $d->accept ) {
                                     $response->header(
                                         "Content-Type" => "text/html" );
                                     $c->send_response($response);
-
+                                    if ($config->{updatehook}) {
+                                        $log->write("Run updatehook for new key");
+                                        my $cmd = $config->{updatehook};
+                                        # replace %f in the command with the
+                                        # filename of the key
+                                        $cmd =~ s/%f/$new_key/g;
+                                        my $proc = Proc::Reliable->new();
+                                        $proc->want_single_list(0);
+                                        my ($stdout, $stderr, $status, $msg) = $proc->run($cmd);
+                                        if ($status) {
+                                            $log->write("There was a problem in running the updatehook:\nStdout: $stdout\nStderr: $stderr");
+                                        }
+                                    }
                                 } else {
                                     $log->write(
                                         "Could not write $keyid to $new_key: $!",

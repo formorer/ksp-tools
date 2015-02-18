@@ -33,6 +33,8 @@ bind = 0.0.0.0 <- bind to a specific ip
 daemonize = 1 <- go into background? 
 LOG_FILE = /home/ksp/kspkeyserver.log <- logfile
 LOG_LEVEL = 7 <- loglevel: 1 means virtually nothing - 7 all 
+updatehook = updatehook.sh %f <- some script to run after a key got submitted.
+                                 %f gets replaced by the filename of the new key
 
 The environment variable KSP_HOMEDIR is honored to overrule /home/ksp.  So,
 starting the server as
