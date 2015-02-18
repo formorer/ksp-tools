@@ -35,7 +35,7 @@ ls -1tcr keys/* | xargs gpg -q --allow-non-selfsigned-uid --import
 (
 cat conf/list-header
 
-gpg -q --no-options --fingerprint --list-key |
+gpg -q --no-options --keyid-format long --fingerprint --list-key |
         grep -v '^sub ' |
         perl -npe '$c = sprintf("%03d", ++$C); s/^pub/$c   [ ] Fingerprint OK    [ ] ID-Card OK\npub/m or $C--' |
         grep -v '^uid.*jpeg image of size' |
