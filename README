@@ -17,6 +17,8 @@ Otherwise the key gets dropped to $basedir.
 
 Requirements:
 Log::LogLite (Debian package liblog-loglite-perl) e.a.
+HTTP::Daemon (Debian package libhttp-daemon-perl)
+Proc::Reliable (Debian package libproc-reliable-perl)
 
 There are a few variables that can be adjusted via a configuration file.
 Default location of that file is keyserver.conf in the top level directory of
